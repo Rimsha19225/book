@@ -1,0 +1,160 @@
+{
+  "siteMetadata": {
+    "title": "Physical AI & Humanoid Robotics Textbook",
+    "tagline": "An interactive textbook for learning Physical AI and Humanoid Robotics",
+    "favicon": "/img/favicon.ico",
+    "ogImage": "/img/og-image.png",
+    "twitterImage": "/img/twitter-image.png",
+    "twitterUsername": "@physical_ai_textbook",
+    "url": "https://your-username.github.io",
+    "baseUrl": "/physical-ai-textbook/",
+    "organizationName": "your-organization",
+    "projectName": "physical-ai-textbook",
+    "githubHost": "github.com"
+  },
+  "plugins": [
+    "docusaurus-plugin-sass",
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        "id": "textbook",
+        "path": "docs",
+        "routeBasePath": "/",
+        "sidebarPath": "./sidebars.js",
+        "editUrl": "https://github.com/your-username/physical-ai-textbook/edit/main/"
+      }
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        "showReadingTime": true,
+        "editUrl": "https://github.com/your-username/physical-ai-textbook/edit/main/blog/"
+      }
+    ],
+    [
+      "@docusaurus/plugin-content-pages",
+      {
+        "path": "src/pages",
+        "routeBasePath": "/"
+      }
+    ],
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        "fromExtensions": ["html", "htm"],
+        "toExtensions": ["exe", "zip"],
+        "redirects": [
+          {
+            "from": "/docs/intro",
+            "to": "/"
+          }
+        ]
+      }
+    ],
+    [
+      "@docusaurus/plugin-sitemap",
+      {
+        "changefreq": "weekly",
+        "priority": 0.5,
+        "filename": "sitemap.xml"
+      }
+    ]
+  ],
+  "themes": [
+    [
+      "@docusaurus/theme-classic",
+      {
+        "customCss": [require.resolve("./src/css/custom.css")]
+      }
+    ],
+    "@docusaurus/theme-search-algolia"
+  ],
+  "themeConfig": {
+    "colorMode": {
+      "defaultMode": "light",
+      "disableSwitch": false,
+      "respectPrefersColorScheme": true
+    },
+    "navbar": {
+      "title": "Physical AI Textbook",
+      "logo": {
+        "alt": "Physical AI Logo",
+        "src": "/img/logo.svg"
+      },
+      "items": [
+        {
+          "type": "doc",
+          "docId": "welcome/about-this-textbook",
+          "position": "left",
+          "label": "Textbook"
+        },
+        {
+          "href": "https://github.com/your-username/physical-ai-textbook",
+          "label": "GitHub",
+          "position": "right"
+        }
+      ]
+    },
+    "footer": {
+      "style": "dark",
+      "links": [
+        {
+          "title": "Docs",
+          "items": [
+            {
+              "label": "Textbook",
+              "to": "/"
+            }
+          ]
+        },
+        {
+          "title": "Community",
+          "items": [
+            {
+              "label": "Stack Overflow",
+              "href": "https://stackoverflow.com/questions/tagged/docusaurus"
+            },
+            {
+              "label": "Discord",
+              "href": "https://discordapp.com/invite/docusaurus"
+            }
+          ]
+        },
+        {
+          "title": "More",
+          "items": [
+            {
+              "label": "GitHub",
+              "href": "https://github.com/your-username/physical-ai-textbook"
+            }
+          ]
+        }
+      ],
+      "copyright": "Copyright © 2025 Physical AI & Humanoid Robotics Textbook. Built with Docusaurus."
+    },
+    "algolia": {
+      "appId": "YOUR_ALGOLIA_APP_ID",
+      "apiKey": "YOUR_ALGOLIA_API_KEY",
+      "indexName": "physical-ai-textbook",
+      "contextualSearch": true,
+      "searchParameters": {},
+      "externalUrlRegex": "external\\.com|domain\\.com"
+    }
+  },
+  "customFields": {
+    "deployment": {
+      "provider": "github-pages",
+      "branch": "gh-pages",
+      "cname": "textbook.physicalai.org",
+      "buildCommand": "npm run build",
+      "outputDirectory": "build"
+    },
+    "features": {
+      "aiAssistant": true,
+      "progressTracking": true,
+      "responsiveDesign": true,
+      "offlineSupport": false,
+      "multilingual": false
+    }
+  }
+}

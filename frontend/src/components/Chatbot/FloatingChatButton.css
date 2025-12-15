@@ -1,0 +1,82 @@
+/* Floating Chat Button Component Styles */
+.floating-chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  border: none;
+  font-size: 24px;
+  transition: all 0.3s ease;
+  animation: buttonPulse 2s infinite;
+  touch-action: manipulation; /* Optimize for touch screens */
+}
+
+@keyframes buttonPulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.floating-chat-button:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.floating-chat-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
+}
+
+.chat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 767px) {
+  .floating-chat-button {
+    bottom: 15px; /* Adjusted position for mobile */
+    right: 15px; /* Adjusted position for mobile */
+    width: 56px; /* Slightly smaller on mobile */
+    height: 56px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18); /* Slightly different shadow */
+  }
+}
+
+/* Adjust for very small screens */
+@media (max-width: 480px) {
+  .floating-chat-button {
+    bottom: 12px; /* Further adjusted position */
+    right: 12px;
+    width: 52px; /* Even smaller on very small screens */
+    height: 52px;
+  }
+}
+
+/* Adjust for larger mobile screens (tablets in portrait) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .floating-chat-button {
+    bottom: 18px; /* Slightly adjusted */
+    right: 18px;
+  }
+}

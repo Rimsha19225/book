@@ -1,0 +1,371 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/* You can override the default Docusaurus styling with custom CSS here. */
+
+:root {
+  --ifm-color-primary: #2563eb; /* Modern blue */
+  --ifm-color-primary-dark: #1d4ed8;
+  --ifm-color-primary-darker: #1a47c5;
+  --ifm-color-primary-darkest: #153a9d;
+  --ifm-color-primary-light: #3d73f0;
+  --ifm-color-primary-lighter: #4a7df2;
+  --ifm-color-primary-lightest: #6c93f5;
+  --ifm-code-font-size: 95%;
+
+  /* Additional theme colors */
+  --textbook-blue: #2563eb;
+  --textbook-blue-light: #dbeafe;
+  --textbook-blue-dark: #1e40af;
+  --textbook-gray: #f9fafb;
+  --textbook-gray-light: #f3f4f6;
+  --textbook-gray-medium: #e5e7eb;
+  --textbook-gray-dark: #6b7280;
+  --textbook-text-dark: #1f2937;
+  --textbook-text-light: #f9fafb;
+  --textbook-success: #10b981;
+  --textbook-warning: #f59e0b;
+  --textbook-danger: #ef4444;
+}
+
+/* Custom styles for the Physical AI textbook */
+.textbook-content {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  color: var(--textbook-text-dark);
+}
+
+/* Modern aesthetic enhancements */
+.textbook-h1 {
+  color: var(--textbook-blue);
+  border-bottom: 2px solid var(--textbook-gray-medium);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.textbook-h2 {
+  color: var(--textbook-blue-dark);
+  border-bottom: 1px solid var(--textbook-gray-medium);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+}
+
+.textbook-h3 {
+  color: var(--textbook-blue-dark);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.textbook-paragraph {
+  margin-bottom: 1.2rem;
+  color: var(--textbook-text-dark);
+}
+
+.textbook-code {
+  background-color: var(--textbook-gray-light);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  color: #e94f37;
+}
+
+.textbook-pre {
+  background-color: #f1f5f9;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid var(--textbook-gray-medium);
+}
+
+.textbook-list-item {
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+/* Card-like containers for content sections */
+.textbook-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--textbook-gray-medium);
+}
+
+/* Modern buttons */
+.textbook-button {
+  background-color: var(--textbook-blue);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.textbook-button:hover {
+  background-color: var(--textbook-blue-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.15);
+}
+
+/* Enhanced quote styling */
+blockquote {
+  border-left: 4px solid var(--textbook-blue);
+  background-color: var(--textbook-blue-light);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+  color: var(--textbook-blue-dark);
+}
+
+/* Table styling */
+.textbook-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.textbook-table th,
+.textbook-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--textbook-gray-medium);
+}
+
+.textbook-table th {
+  background-color: var(--textbook-gray-light);
+  font-weight: 600;
+  color: var(--textbook-text-dark);
+}
+
+.textbook-table tr:last-child td {
+  border-bottom: none;
+}
+
+.textbook-table tr:hover {
+  background-color: var(--textbook-gray);
+}
+
+/* Inline code with improved styling */
+:not(pre) > code {
+  background-color: var(--textbook-gray-light);
+  color: #e94f37;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+/* Improved horizontal rules */
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--textbook-gray-medium);
+  margin: 2rem 0;
+}
+
+/* Link styling */
+a {
+  color: var(--textbook-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  color: var(--textbook-blue-dark);
+  text-decoration: underline;
+}
+
+/* Image styling */
+img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Container for main content */
+.textbook-main-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Highlighted text */
+.textbook-highlight {
+  background-color: #fef3c7;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+.textbook-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Floating chat button styles */
+.floating-chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  border: none;
+  font-size: 24px;
+}
+
+.floating-chat-button:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
+}
+
+/* Chat panel styles */
+.chat-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 400px;
+  max-width: calc(100% - 40px);
+  max-height: 600px;
+  min-height: 400px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-header {
+  background-color: #2563eb;
+  color: white;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  max-height: calc(600px - 120px);
+}
+
+.chat-input-area {
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+
+.chat-send-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.chat-send-button:hover {
+  background-color: #1d4ed8;
+}
+
+.message {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.message.student {
+  background-color: #dbeafe;
+  margin-left: auto;
+  text-align: right;
+}
+
+.message.ai {
+  background-color: #f3f4f6;
+  margin-right: auto;
+}
+
+/* Module navigation styles */
+.module-navigation {
+  background-color: #f9fafb;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.module-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.module-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-color: #2563eb;
+}
+
+/* Progress indicator styles */
+.progress-container {
+  margin: 20px 0;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+}

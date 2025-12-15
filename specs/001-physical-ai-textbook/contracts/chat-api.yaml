@@ -1,0 +1,157 @@
+# Chat API Contract
+
+## Chat Service API
+
+### POST /api/chat/start
+Start a new chat session
+
+**Request:**
+```json
+{
+  "student_id": "string (optional)",
+  "context_chapter": "string (optional)"
+}
+```
+
+**Response (201):**
+```json
+{
+  "chat_session_id": "string",
+  "created_at": "datetime",
+  "welcome_message": "Hello! I'm your AI-powered textbook assistant. How can I help you with this chapter?"
+}
+```
+
+### POST /api/chat/{chat_session_id}/message
+Send a message to the chatbot
+
+**Request:**
+```json
+{
+  "message": "string (required)",
+  "context_selection": "string (optional, text that was selected)"
+}
+```
+
+**Response (200):**
+```json
+{
+  "message_id": "string",
+  "response": "string",
+  "timestamp": "datetime",
+  "context_used": "string (what context was used for response)"
+}
+```
+
+### GET /api/chat/{chat_session_id}/history
+Get chat history for a session
+
+**Response (200):**
+```json
+{
+  "messages": [
+    {
+      "message_id": "string",
+      "sender_type": "student|ai",
+      "message_content": "string",
+      "timestamp": "datetime"
+    }
+  ]
+}
+```
+
+### POST /api/content/chapter/{module_id}/{chapter_id}/query
+Query content-specific information
+
+**Request:**
+```json
+{
+  "query": "string (required)",
+  "selected_text": "string (optional)"
+}
+```
+
+**Response (200):**
+```json
+{
+  "response": "string",
+  "sources": [
+    {
+      "content_id": "string",
+      "relevance_score": "float"
+    }
+  ]
+}
+```
+
+### GET /api/content/modules
+Get list of available modules
+
+**Response (200):**
+```json
+{
+  "modules": [
+    {
+      "module_id": "string",
+      "title": "string",
+      "description": "string",
+      "order_index": "integer",
+      "estimated_duration_hours": "float (nullable)"
+    }
+  ]
+}
+```
+
+### GET /api/content/modules/{module_id}/chapters
+Get chapters for a specific module
+
+**Response (200):**
+```json
+{
+  "chapters": [
+    {
+      "chapter_id": "string",
+      "title": "string",
+      "content_type": "welcome|introductory|module|assessment"
+    }
+  ]
+}
+```
+
+## Error Responses
+
+### 400 Bad Request
+```json
+{
+  "error": "string",
+  "error_code": "string",
+  "details": "object (optional)"
+}
+```
+
+### 404 Not Found
+```json
+{
+  "error": "Resource not found",
+  "error_code": "RESOURCE_NOT_FOUND"
+}
+```
+
+### 500 Internal Server Error
+```json
+{
+  "error": "Internal server error",
+  "error_code": "INTERNAL_ERROR"
+}
+```
+
+## Common Headers
+- Content-Type: application/json
+- Authorization: Bearer {token} (for authenticated endpoints)
+- X-Request-ID: string (for tracing)
+
+## Validation Rules
+- All string fields are trimmed of whitespace
+- All IDs follow UUID format where specified
+- Timestamps are in ISO 8601 format
+- Response times should be under 5 seconds for 90% of requests

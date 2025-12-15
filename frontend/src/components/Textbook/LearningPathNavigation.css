@@ -1,0 +1,152 @@
+/* Learning Path Navigation Component Styles */
+.learning-path-navigation {
+  background-color: #f9fafb;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navigation-title {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.path-modules {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.module-path-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.module-path-item:hover {
+  border-color: #94a3b8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.module-path-item.current-module {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.module-path-item.completed-module {
+  border-color: #10b981;
+}
+
+.module-header {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.module-header:hover {
+  background-color: #f1f5f9;
+}
+
+.module-progress-indicator {
+  margin-right: 12px;
+  font-size: 1.2rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+.completed-icon {
+  color: #10b981;
+  font-weight: bold;
+}
+
+.pending-icon {
+  color: #94a3b8;
+}
+
+.current-icon {
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.module-info {
+  flex: 1;
+}
+
+.module-title {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.module-description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.module-order {
+  color: #64748b;
+  font-size: 0.875rem;
+  background-color: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.module-chapters {
+  padding-left: 40px;
+  border-left: 2px solid #e2e8f0;
+  margin: 0 12px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chapter-path-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chapter-path-item:hover {
+  background-color: #f1f5f9;
+}
+
+.chapter-path-item.current-chapter {
+  background-color: #dbeafe;
+  font-weight: 500;
+}
+
+.chapter-path-item.completed-chapter {
+  color: #10b981;
+}
+
+.chapter-progress-indicator {
+  margin-right: 8px;
+  font-size: 0.9rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+.chapter-title {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.chapter-type {
+  color: #64748b;
+  font-size: 0.75rem;
+  background-color: #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 12px;
+}

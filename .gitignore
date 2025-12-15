@@ -1,0 +1,88 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+.env
+.env.local
+.env.*.local
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.log
+.DS_Store
+Thumbs.db
+
+# Backend
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.sqlite3
+*.sqlite3-journal
+coverage/
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.pytest_cache/
+.hypothesis/
+
+# Frontend
+node_modules/
+dist/
+.nyc_output
+coverage/
+.nyc_output/
+lib-cov
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+jspm_packages/
+*.pem
+*.key
+*.crt
+*.cert
+.next/
+out/
+.nuxt/
+dist-ssr/
+*.local
+
+# Environment variables
+.env*
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.cov-report
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.docusaurus/

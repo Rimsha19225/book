@@ -1,0 +1,106 @@
+/* Progress Indicator Component Styles */
+.progress-indicator {
+  margin: 20px 0;
+}
+
+.progress-indicator.small {
+  width: 120px;
+}
+
+.progress-indicator.medium {
+  width: 200px;
+}
+
+.progress-indicator.large {
+  width: 280px;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-header {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.progress-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #1e293b;
+  text-align: center;
+}
+
+.progress-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circular-progress {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.circular-progress-svg {
+  width: 100%;
+  height: auto;
+  transform: rotate(-90deg);
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.modules-progress {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.modules-text {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.modules-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.modules-fill {
+  height: 100%;
+  background-color: #2563eb;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-details {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.progress-label {
+  font-size: 0.7rem;
+  color: #64748b;
+}
