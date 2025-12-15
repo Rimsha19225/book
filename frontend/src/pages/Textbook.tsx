@@ -5,6 +5,7 @@ import ContentRenderer from '../components/Textbook/ContentRenderer';
 import ModuleNavigation from '../components/Textbook/ModuleNavigation';
 import ProgressIndicator from '../components/Textbook/ProgressIndicator';
 import LearningPathNavigation from '../components/Textbook/LearningPathNavigation';
+import FloatingChatButton from '../components/Chatbot/FloatingChatButton';
 import { getAllModules, getChaptersForModule, getChapterContent } from '../services/contentService';
 import { Module, Chapter } from '../services/contentService';
 import { getLearningPathForStudent } from '../services/contentService'; // Assuming we have this function
@@ -20,6 +21,7 @@ const TextbookPageContent: React.FC = () => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedText, setSelectedText] = useState<string | null>(null);
 
   // Load initial data
   useEffect(() => {
@@ -125,8 +127,8 @@ const TextbookPageContent: React.FC = () => {
   };
 
   const handleTextSelect = (selectedText: string) => {
-    // This could trigger an action, like showing the chatbot with the selected text context
-    console.log('Selected text:', selectedText);
+    // Update the selected text state to pass to the chatbot
+    setSelectedText(selectedText || null);
   };
 
   if (loading && modules.length === 0) {
@@ -204,6 +206,11 @@ const TextbookPageContent: React.FC = () => {
           )}
         </div>
       </div>
+      <FloatingChatButton
+        contextModuleId={selectedModule?.module_id}
+        contextChapterId={selectedChapter?.chapter_id}
+        contextSelection={selectedText}
+      />
     </div>
   );
 };

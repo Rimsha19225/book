@@ -11,18 +11,29 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-username.github.io',
+  url: 'https://Rimsha19225.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub Pages, this is usually '/<username>.github.io/<repo-name>/'
-  baseUrl: '/physical-ai-textbook/',
+  baseUrl: '/book/',
 
   // GitHub pages deployment config.
   organizationName: 'Rimsha19225', // Your GitHub username.
-  projectName: 'physical-ai-textbook', // Your repo name.
+  projectName: 'book', // Your repo name.
 
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
-  trailingSlash: 'always',
+  onBrokenLinks: 'ignore',
+  markdown: {
+    format: 'detect',
+    mermaid: true,
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
+    hooks: {
+      onBrokenMarkdownLinks: 'ignore',
+    },
+  },
+  trailingSlash: true,
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -50,6 +61,14 @@ const config = {
       }),
     ],
   ],
+
+  themes: ['@docusaurus/theme-live-codeblock'], // Add any additional themes here
+
+  plugins: [],
+
+  customFields: {
+    // Add custom fields here if needed
+  },
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -84,7 +103,7 @@ const config = {
             items: [
               {
                 label: 'Textbook',
-                to: '/textbook',
+                to: '/',
               },
             ],
           },

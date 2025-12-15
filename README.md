@@ -44,3 +44,26 @@ The solution follows a web application architecture with:
 - **Frontend**: TypeScript 5.3+, Docusaurus, React
 - **Database**: Neon Postgres, Qdrant Cloud
 - **AI/ML**: OpenAI API, Vector embeddings, RAG pipeline
+
+## Deployment
+
+### Frontend Deployment (GitHub Pages)
+
+To build and deploy the frontend to GitHub Pages:
+
+```bash
+cd frontend
+npm run build
+npm run deploy
+```
+
+**Note**: The deployment requires a GitHub repository named `book` under the user `Rimsha19225` with a `gh-pages` branch. For detailed deployment instructions, see [frontend/deploy-to-gh-pages.md](frontend/deploy-to-gh-pages.md).
+
+For local serving of the built site:
+```bash
+npm run serve
+```
+
+### Backend Deployment
+
+Backend deployment scripts are located in the `backend/` directory. See the backend documentation for deployment instructions.
