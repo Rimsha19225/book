@@ -2,7 +2,11 @@
 import axios from 'axios';
 
 // Base API URL - in production, this would be configured via environment variables
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api';
+// Using a default value for development
+// Docusaurus can use global variables or a configuration approach
+const API_BASE_URL = (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_BASE_URL)
+  ? process.env.REACT_APP_API_BASE_URL
+  : 'http://127.0.0.1:8000/api';
 
 // Create an axios instance with default configuration
 const apiClient = axios.create({

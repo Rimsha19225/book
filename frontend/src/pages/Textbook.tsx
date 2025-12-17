@@ -1,225 +1,120 @@
-/** Textbook Page Component for the Physical AI & Humanoid Robotics Textbook application */
+/** Simplified Textbook Page with Typing Animation for Heading */
 import React, { useState, useEffect } from 'react';
-import { LearningPathProvider, useLearningPath } from '../contexts/LearningPathContext.tsx';
-import ContentRenderer from '../components/Textbook/ContentRenderer';
-import ModuleNavigation from '../components/Textbook/ModuleNavigation';
-import ProgressIndicator from '../components/Textbook/ProgressIndicator';
-import LearningPathNavigation from '../components/Textbook/LearningPathNavigation';
+import Layout from '@theme/Layout';
 import FloatingChatButton from '../components/Chatbot/FloatingChatButton';
-import { getAllModules, getChaptersForModule, getChapterContent } from '../services/contentService';
-import { Module, Chapter } from '../services/contentService';
-import { getLearningPathForStudent } from '../services/contentService'; // Assuming we have this function
 import '../css/custom.css';
 
-// Inner component that has access to the learning path context
-const TextbookPageContent: React.FC = () => {
-  const { learningPath, setLearningPath, updateChapterStatus, setCurrentLocation } = useLearningPath();
-  const [modules, setModules] = useState<Module[]>([]);
-  const [chapters, setChapters] = useState<Chapter[]>([]);
-  const [selectedModule, setSelectedModule] = useState<Module | null>(null);
-  const [selectedChapter, setSelectedChapter] = useState<Chapter | null>(null);
-  const [content, setContent] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedText, setSelectedText] = useState<string | null>(null);
+const TypingHeading: React.FC = () => {
+  const fullText = 'Wellcome Physical AI';
+  const [displayText, setDisplayText] = useState<string>('');
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [showCursor, setShowCursor] = useState<boolean>(true);
 
-  // Load initial data
   useEffect(() => {
-    loadInitialData();
-  }, []);
+    if (currentIndex < fullText.length) {
+      const timeout = setTimeout(() => {
+        setDisplayText(prev => prev + fullText[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, 150); // Typing speed: 150ms per character
 
-  const loadInitialData = async () => {
-    try {
-      setLoading(true);
-      const moduleData = await getAllModules();
-      setModules(moduleData);
+      return () => clearTimeout(timeout);
+    } else {
+      // Blinking cursor effect after typing is complete
+      const cursorInterval = setInterval(() => {
+        setShowCursor(prev => !prev);
+      }, 500);
 
-      // Load learning path data
-      // In a real app, you would fetch this based on the logged-in student
-      // For now, we'll use a placeholder student ID
-      const studentId = "placeholder-student-id";
-      // const pathData = await getLearningPathForStudent(studentId);
-      // setLearningPath(pathData);
-
-      // If there are modules, select the first one by default
-      if (moduleData.length > 0) {
-        const firstModule = moduleData[0];
-        setSelectedModule(firstModule);
-
-        const chapterData = await getChaptersForModule(firstModule.module_id);
-        setChapters(chapterData);
-
-        // If there are chapters, select the first one by default
-        if (chapterData.length > 0) {
-          const firstChapter = chapterData[0];
-          setSelectedChapter(firstChapter);
-
-          // Load the content for the first chapter
-          const chapterContent = await getChapterContent(firstModule.module_id, firstChapter.chapter_id);
-          setContent(chapterContent);
-        }
-      }
-      setError(null);
-    } catch (err) {
-      console.error('Error loading textbook data:', err);
-      setError('Failed to load textbook content. Please try again later.');
-    } finally {
-      setLoading(false);
+      return () => clearInterval(cursorInterval);
     }
-  };
+  }, [currentIndex, fullText]);
 
-  const handleModuleSelect = async (moduleId: string) => {
-    try {
-      setLoading(true);
-      const module = modules.find(m => m.module_id === moduleId) || null;
-      setSelectedModule(module);
+  // Reset the animation after it completes (optional - remove if you don't want it to repeat)
+  useEffect(() => {
+    if (currentIndex === fullText.length) {
+      const resetTimeout = setTimeout(() => {
+        setDisplayText('');
+        setCurrentIndex(0);
+        setShowCursor(true);
+      }, 3000); // Wait 3 seconds before resetting
 
-      if (module) {
-        const chapterData = await getChaptersForModule(moduleId);
-        setChapters(chapterData);
-
-        // Select the first chapter of the module by default
-        if (chapterData.length > 0) {
-          const firstChapter = chapterData[0];
-          setSelectedChapter(firstChapter);
-
-          // Load content for the selected chapter
-          const chapterContent = await getChapterContent(moduleId, firstChapter.chapter_id);
-          setContent(chapterContent);
-
-          // Update current location in learning path
-          setCurrentLocation(moduleId, firstChapter.chapter_id);
-        } else {
-          setContent('');
-          setCurrentLocation(moduleId, null);
-        }
-      }
-      setError(null);
-    } catch (err) {
-      console.error(`Error loading chapters for module ${moduleId}:`, err);
-      setError(`Failed to load chapters for module. Please try again later.`);
-    } finally {
-      setLoading(false);
+      return () => clearTimeout(resetTimeout);
     }
-  };
-
-  const handleChapterSelect = async (moduleId: string, chapterId: string) => {
-    try {
-      setLoading(true);
-      const chapter = chapters.find(c => c.chapter_id === chapterId) || null;
-      setSelectedChapter(chapter);
-
-      if (chapter) {
-        // Load content for the selected chapter
-        const chapterContent = await getChapterContent(moduleId, chapterId);
-        setContent(chapterContent);
-
-        // Update current location in learning path
-        setCurrentLocation(moduleId, chapterId);
-      }
-      setError(null);
-    } catch (err) {
-      console.error(`Error loading content for chapter ${chapterId}:`, err);
-      setError(`Failed to load chapter content. Please try again later.`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleTextSelect = (selectedText: string) => {
-    // Update the selected text state to pass to the chatbot
-    setSelectedText(selectedText || null);
-  };
-
-  if (loading && modules.length === 0) {
-    return (
-      <div className="textbook-container">
-        <div className="loading">Loading textbook content...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="textbook-container">
-        <div className="error">{error}</div>
-      </div>
-    );
-  }
+  }, [currentIndex, fullText.length]);
 
   return (
-    <div className="textbook-container textbook-content">
-      <div className="textbook-header">
-        <h1>Physical AI & Humanoid Robotics Textbook</h1>
-        <div className="header-controls">
-          <ProgressIndicator size="small" showPercentage={true} showModules={true} />
-        </div>
-      </div>
-
-      <div className="textbook-layout">
-        <div className="navigation-column">
-          <ModuleNavigation
-            onModuleSelect={handleModuleSelect}
-            onChapterSelect={handleChapterSelect}
-            selectedModuleId={selectedModule?.module_id}
-            selectedChapterId={selectedChapter?.chapter_id}
-          />
-          <LearningPathNavigation
-            onModuleSelect={handleModuleSelect}
-            onChapterSelect={handleChapterSelect}
-            currentModuleId={selectedModule?.module_id}
-            currentChapterId={selectedChapter?.chapter_id}
-          />
-        </div>
-
-        <div className="content-column">
-          {selectedModule && selectedChapter ? (
-            <>
-              <div className="content-header">
-                <h2>{selectedModule.title}</h2>
-                <h3>{selectedChapter.title}</h3>
-              </div>
-
-              {content ? (
-                <ContentRenderer
-                  content={content}
-                  moduleId={selectedModule.module_id}
-                  chapterId={selectedChapter.chapter_id}
-                  onTextSelect={handleTextSelect}
-                />
-              ) : (
-                <div className="no-content">No content available for this chapter.</div>
-              )}
-            </>
-          ) : (
-            <div className="welcome-message">
-              <h2>Welcome to the Physical AI & Humanoid Robotics Textbook</h2>
-              <p>Select a module and chapter from the navigation panel to begin your learning journey.</p>
-              <p>This interactive textbook covers the fundamentals of:</p>
-              <ul>
-                <li>ROS 2 (Robot Operating System)</li>
-                <li>Gazebo and Unity simulation environments</li>
-                <li>NVIDIA Isaac robotics platform</li>
-                <li>Vision-Language-Action (VLA) models</li>
-              </ul>
-            </div>
-          )}
-        </div>
-      </div>
-      <FloatingChatButton
-        contextModuleId={selectedModule?.module_id}
-        contextChapterId={selectedChapter?.chapter_id}
-        contextSelection={selectedText}
+    <h1
+      style={{
+        fontSize: '2.5rem',
+        color: '#1e88e5',
+        marginBottom: '20px',
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        position: 'relative',
+        display: 'inline-block'
+      }}
+    >
+      {displayText}
+      <span
+        style={{
+          opacity: showCursor ? 1 : 0,
+          transition: 'opacity 0.2s',
+          backgroundColor: '#1e88e5',
+          width: '2px',
+          display: 'inline-block',
+          marginLeft: '4px',
+          height: '1.2em',
+          verticalAlign: 'bottom'
+        }}
       />
-    </div>
+    </h1>
   );
 };
 
 const TextbookPage: React.FC = () => {
   return (
-    <LearningPathProvider>
-      <TextbookPageContent />
-    </LearningPathProvider>
+    <Layout title="Wellcome Physical AI" description="Physical AI combines artificial intelligence with robots and sensors to perceive, decide, and act in the real world, enabling machines to interact safely, autonomously, and adaptively with environments and humans.">
+      <main style={{ padding: '20px', textAlign: 'center', minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <TypingHeading />
+        <p style={{ fontSize: '1.2rem', color: '#7f8c8d', maxWidth: '600px', lineHeight: '1.6' }}>
+          Physical AI combines artificial intelligence with robots and sensors to perceive, decide, and act in the real world, enabling machines to interact safely, autonomously, and adaptively with environments and humans.
+        </p>
+        <a
+          href="/book/docs/introductory/introduction-to-physical-ai/"
+          style={{
+            display: 'inline-block',
+            marginTop: '30px',
+            padding: '15px 30px',
+            fontSize: '1.1rem',
+            fontWeight: 'bold',
+            color: 'white',
+            background: 'linear-gradient(145deg, #1e88e5, #0d47a1)',
+            border: 'none',
+            borderRadius: '50px',
+            cursor: 'pointer',
+            textDecoration: 'none',
+            boxShadow: '0 6px 12px rgba(30, 136, 229, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3)',
+            position: 'relative',
+            overflow: 'hidden',
+            transition: 'all 0.3s ease',
+            textShadow: '0 1px 2px rgba(0,0,0,0.2)'
+          }}
+          onMouseEnter={(e) => {
+            const target = e.target as HTMLElement;
+            target.style.background = 'linear-gradient(145deg, #2196F3, #1565C0)';
+            target.style.boxShadow = '0 8px 16px rgba(30, 136, 229, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4)';
+            target.style.transform = 'translateY(-2px)';
+          }}
+          onMouseLeave={(e) => {
+            const target = e.target as HTMLElement;
+            target.style.background = 'linear-gradient(145deg, #1e88e5, #0d47a1)';
+            target.style.boxShadow = '0 6px 12px rgba(30, 136, 229, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3)';
+            target.style.transform = 'translateY(0)';
+          }}
+        >
+          Read Book
+        </a>
+      </main>
+      <FloatingChatButton />
+    </Layout>
   );
 };
 

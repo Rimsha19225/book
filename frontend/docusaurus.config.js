@@ -52,7 +52,15 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Remove the editUrl to avoid the "edit this page" links since we don't have docs in the default location
           editUrl: undefined,
-          // Don't set routeBasePath to avoid conflicts with the textbook page
+          // Set routeBasePath to 'docs' to serve documentation under /docs/ and not interfere with textbook
+          routeBasePath: 'docs',
+          // Disable the automatic "next" navigation that might cause redirection
+          showLastUpdateTime: false,
+          showLastUpdateAuthor: false,
+          // Don't create a home page from docs that might interfere with textbook
+          path: 'docs',
+          // Skip the next and prev navigation that might cause issues
+          sidebarCollapsible: true,
         },
         blog: false, // Disable blog functionality
         theme: {
@@ -86,7 +94,7 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Textbook',
+            label: 'Book',
           },
           {
             href: 'https://github.com/Rimsha19225/physical-ai-textbook',
@@ -99,11 +107,11 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Textbook',
+            title: 'Documentation',
             items: [
               {
-                label: 'Textbook',
-                to: '/',
+                label: 'Book',
+                to: '/book/docs/introductory/introduction-to-physical-ai/',
               },
             ],
           },
