@@ -13,6 +13,14 @@ This project implements an interactive textbook covering:
 
 The textbook features an integrated RAG chatbot using OpenAI embeddings, Qdrant vector search, and FastAPI backend services to provide context-aware responses based on current chapter content.
 
+## Latest Updates
+
+**December 2025**: Added comprehensive content for all 4 modules with 4 chapters each:
+- Module 1: Complete ROS 2 curriculum (4 chapters)
+- Module 2: Complete Simulation curriculum (4 chapters)
+- Module 3: Complete NVIDIA Isaac curriculum (4 chapters)
+- Module 4: Complete VLA Models curriculum (4 chapters)
+
 ## Architecture
 
 The solution follows a web application architecture with:
