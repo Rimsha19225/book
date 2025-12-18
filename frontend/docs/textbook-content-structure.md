@@ -34,7 +34,7 @@ Simulation environments:
 
 ### 5. Module 3: NVIDIA Isaac (`/module-3-nvidia-isaac/`)
 NVIDIA robotics platform:
-- `isaac-overview.md` - Platform architecture
+- `introduction-to-isaac.md` - Platform architecture
 - `isaac-sim-getting-started.md` - Isaac Sim basics
 - `hardware-integration.md` - Jetson platform integration
 - `ai-workflows.md` - AI-powered robotics workflows
