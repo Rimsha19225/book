@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { LearningPathProvider } from './contexts/LearningPathContext';
 import FloatingChatButton from './components/Chatbot/FloatingChatButton';
 
 const RootWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -20,14 +21,16 @@ const RootWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, []);
 
   return (
-    <>
-      {children}
-      <FloatingChatButton
-        contextModuleId={null}
-        contextChapterId={null}
-        contextSelection={selectedText}
-      />
-    </>
+    <LearningPathProvider>
+      <>
+        {children}
+        <FloatingChatButton
+          contextModuleId={null}
+          contextChapterId={null}
+          contextSelection={selectedText}
+        />
+      </>
+    </LearningPathProvider>
   );
 };
 

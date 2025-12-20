@@ -1,7 +1,6 @@
 /** Simplified Textbook Page with Typing Animation for Heading */
 import React, { useState, useEffect } from 'react';
 import Layout from '@theme/Layout';
-import FloatingChatButton from '../components/Chatbot/FloatingChatButton';
 import '../css/custom.css';
 
 const TypingHeading: React.FC = () => {
@@ -113,7 +112,6 @@ const TextbookPage: React.FC = () => {
           Read Book
         </a>
       </main>
-      <FloatingChatButton />
     </Layout>
   );
 };
