@@ -1,0 +1,52 @@
+.translate-to-urdu-container {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.translate-button {
+  background-color: #4a6fa5;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.translate-button:hover {
+  background-color: #3a5a8a;
+}
+
+.translate-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.translate-button.translated {
+  background-color: #28a745;
+}
+
+.translate-button.translated:hover {
+  background-color: #218838;
+}
+
+.translate-loading {
+  margin: 0.5rem 0;
+}
+
+.translate-error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  width: 100%;
+}

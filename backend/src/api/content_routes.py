@@ -7,6 +7,7 @@ from ..api.models.response_models import GetModulesResponse, GetChaptersResponse
 from ..services.content_service import get_all_modules, get_chapters_for_module
 from ..services.rag_service import query_content
 from ..services.learning_path_service import get_student_progress, get_learning_path
+from ..services.translation_service import translate_content
 
 router = APIRouter()
 
@@ -62,6 +63,27 @@ def get_learning_path_for_student(student_id: str, db: Session = Depends(get_db)
         return path
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving learning path: {str(e)}")
+
+
+@router.post("/translate")
+def translate_content_endpoint(translation_data: dict):
+    """Translate content to the specified language."""
+    try:
+        content = translation_data.get("content", "")
+        target_language = translation_data.get("targetLanguage", "ur")
+        module_id = translation_data.get("moduleId")
+        chapter_id = translation_data.get("chapterId")
+
+        translated_content = translate_content(content, target_language, module_id, chapter_id)
+
+        return {
+            "translatedContent": translated_content,
+            "sourceLanguage": "en",
+            "targetLanguage": target_language,
+            "timestamp": __import__('datetime').datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error translating content: {str(e)}")
 
 
 @router.post("/learning/progress")

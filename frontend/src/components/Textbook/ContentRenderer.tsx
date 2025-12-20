@@ -4,9 +4,10 @@ import ReactMarkdown from 'react-markdown';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import 'katex/dist/katex.min.css'; // Import KaTeX CSS for math rendering
-import { useLearningPath } from '../../contexts/LearningPathContext.tsx';
+import { useSafeLearningPath } from '../../hooks/useSafeLearningPath';
 import ProgressIndicator from './ProgressIndicator';
 import LoadingSpinner from '../UI/LoadingSpinner';
+import TranslateToUrduButton from './TranslateToUrduButton';
 import './ContentRenderer.css'; // Import component-specific styles
 
 interface ContentRendererProps {
@@ -25,7 +26,10 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({
   loading = false
 }) => {
   const [selectedText, setSelectedText] = useState<string | null>(null);
-  const { updateChapterStatus, getChapter } = useLearningPath();
+  const [translatedContent, setTranslatedContent] = useState<string | null>(null);
+  const learningPathContext = useSafeLearningPath();
+  const updateChapterStatus = learningPathContext?.updateChapterStatus || (() => {});
+  const getChapter = learningPathContext?.getChapter || (() => undefined);
 
   // Handle text selection - enhanced for mobile
   useEffect(() => {
@@ -70,6 +74,11 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({
   const currentChapter = moduleId && chapterId ? getChapter(moduleId, chapterId) : undefined;
   const isCompleted = currentChapter?.completed || false;
 
+  // Handle translation
+  const handleTranslation = (translated: string, isTranslated: boolean) => {
+    setTranslatedContent(translated);
+  };
+
   // Custom components for ReactMarkdown
   const renderers = {
     // Override default heading behavior if needed
@@ -113,12 +122,20 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({
       <div className="content-area"
            style={{ userSelect: 'text' }} // Ensure text selection works properly
       >
+        <TranslateToUrduButton
+          content={content}
+          moduleId={moduleId}
+          chapterId={chapterId}
+          onTranslate={handleTranslation}
+          originalContent={content}
+        />
+
         <ReactMarkdown
           remarkPlugins={[remarkMath]}
           rehypePlugins={[rehypeKatex]}
           components={renderers}
         >
-          {processContent(content)}
+          {processContent(translatedContent || content)}
         </ReactMarkdown>
       </div>
 
