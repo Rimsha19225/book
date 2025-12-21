@@ -113,7 +113,6 @@ const TextbookPage: React.FC = () => {
           Read Book
         </a>
       </main>
-      <FloatingChatButton />
     </Layout>
   );
 };

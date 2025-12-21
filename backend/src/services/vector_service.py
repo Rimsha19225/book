@@ -2,7 +2,7 @@
 from typing import List
 import uuid
 from ..database.vector_connection import get_qdrant_client, get_collection_name
-from ..utils.openai_client import get_embeddings
+from ..utils.cohere_client import get_embeddings
 from qdrant_client.http import models
 
 
@@ -76,12 +76,12 @@ def search_similar_content(query: str, module_id: str = None, chapter_id: str = 
             filters = models.Filter(must=filter_conditions)
 
         # Search for similar content
-        search_results = client.search(
+        search_results = client.query_points(
             collection_name=collection_name,
-            query_vector=query_embedding,
+            query=query_embedding,
             query_filter=filters,
             limit=limit
-        )
+        ).points
 
         # Extract the relevant information from results
         results = []

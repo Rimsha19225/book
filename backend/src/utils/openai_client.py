@@ -10,6 +10,13 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
+def get_openai_client():
+    """Get OpenAI client instance."""
+    # For backward compatibility, return the openai module itself
+    # In a real implementation with newer OpenAI versions, this would return openai.OpenAI()
+    return openai
+
+
 def get_completion(prompt: str, context_chapter: str = None) -> str:
     """Get a completion from OpenAI API."""
     try:

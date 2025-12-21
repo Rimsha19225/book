@@ -25,7 +25,7 @@ export interface ChatHistory {
 
 /**
  * Start a new chat session
- * @param studentId - Optional student ID
+ * @param studentId - Optional student ID (will be overridden by authenticated user if available)
  * @param contextChapter - Optional context chapter
  * @returns Promise containing the new chat session
  */
@@ -34,8 +34,18 @@ export const startChatSession = async (
   contextChapter?: string
 ): Promise<ChatSession> => {
   try {
-    const response = await api.startChat(studentId, contextChapter);
-    return response.data as ChatSession;
+    // If user is authenticated, use their ID instead of the provided studentId
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      // For authenticated users, we'll let the backend determine the user ID from the token
+      // so we don't pass studentId explicitly
+      const response = await api.startChat(undefined, contextChapter);
+      return response.data as ChatSession;
+    } else {
+      // For anonymous users, use the provided studentId or undefined
+      const response = await api.startChat(studentId, contextChapter);
+      return response.data as ChatSession;
+    }
   } catch (error) {
     console.error('Error starting chat session:', error);
     throw error;

@@ -17,7 +17,7 @@ class ChatMessage(Base):
 
     message_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     chat_session_id = Column(UUID(as_uuid=True), ForeignKey("chat_sessions.chat_session_id"), nullable=False)
-    sender_type = Column(SQLEnum(SenderType.STUDENT, SenderType.AI), nullable=False)
+    sender_type = Column(SQLEnum(SenderType.STUDENT, SenderType.AI, name="sender_type_enum"), nullable=False)
     message_content = Column(Text, nullable=False)
     timestamp = Column(DateTime, default=func.now(), nullable=False)
     context_snippet = Column(Text, nullable=True)

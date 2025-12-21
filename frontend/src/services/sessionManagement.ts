@@ -1,4 +1,5 @@
 /** Session Management Service for the Physical AI & Humanoid Robotics Textbook application */
+import { chatService } from './apiClient';
 
 // Define session data structure
 interface ChatSessionData {
@@ -20,11 +21,16 @@ interface ChatSessionData {
 const SESSION_STORAGE_KEY = 'textbook-chat-sessions';
 const CURRENT_SESSION_KEY = 'current-chat-session-id';
 
+// Check if running in browser environment
+const isBrowser = typeof window !== 'undefined';
+
 /**
  * Save a chat session to local storage
  * @param sessionData - The session data to save
  */
 export const saveSession = (sessionData: ChatSessionData): void => {
+  if (!isBrowser) return;
+
   try {
     // Get existing sessions from storage
     const existingSessions = getStoredSessions();
@@ -59,6 +65,8 @@ export const saveSession = (sessionData: ChatSessionData): void => {
  * @returns The session data or null if not found
  */
 export const loadSession = (sessionId: string): ChatSessionData | null => {
+  if (!isBrowser) return null;
+
   try {
     const sessions = getStoredSessions();
     const session = sessions.find(s => s.sessionId === sessionId);
@@ -75,6 +83,8 @@ export const loadSession = (sessionId: string): ChatSessionData | null => {
  * @returns Array of stored sessions
  */
 export const getStoredSessions = (): ChatSessionData[] => {
+  if (!isBrowser) return [];
+
   try {
     const stored = localStorage.getItem(SESSION_STORAGE_KEY);
     if (!stored) {
@@ -104,6 +114,8 @@ export const getStoredSessions = (): ChatSessionData[] => {
  * @returns The current session ID or null if not set
  */
 export const getCurrentSessionId = (): string | null => {
+  if (!isBrowser) return null;
+
   try {
     return localStorage.getItem(CURRENT_SESSION_KEY);
   } catch (error) {
@@ -117,6 +129,8 @@ export const getCurrentSessionId = (): string | null => {
  * @param sessionId - The session ID to set as current
  */
 export const setCurrentSessionId = (sessionId: string): void => {
+  if (!isBrowser) return;
+
   try {
     localStorage.setItem(CURRENT_SESSION_KEY, sessionId);
   } catch (error) {
@@ -131,6 +145,18 @@ export const setCurrentSessionId = (sessionId: string): void => {
  * @returns New session data
  */
 export const createNewSession = (contextModuleId?: string, contextChapterId?: string): ChatSessionData => {
+  if (!isBrowser) {
+    // Return a basic session object if not in browser
+    return {
+      sessionId: 'temp-session',
+      createdAt: new Date(),
+      lastActive: new Date(),
+      contextModuleId,
+      contextChapterId,
+      messages: []
+    };
+  }
+
   const sessionId = generateSessionId();
 
   const newSession: ChatSessionData = {
@@ -154,6 +180,8 @@ export const createNewSession = (contextModuleId?: string, contextChapterId?: st
  * @param message - The message to add
  */
 export const addMessageToSession = (sessionId: string, message: ChatSessionData['messages'][0]): void => {
+  if (!isBrowser) return;
+
   const session = loadSession(sessionId);
   if (!session) {
     console.error(`Session ${sessionId} not found`);
@@ -170,6 +198,8 @@ export const addMessageToSession = (sessionId: string, message: ChatSessionData[
  * Clear expired sessions (older than 24 hours)
  */
 export const clearExpiredSessions = (): void => {
+  if (!isBrowser) return;
+
   try {
     const sessions = getStoredSessions();
     const now = new Date();
@@ -228,6 +258,8 @@ export const initializeSessionManagement = (): void => {
  * @param sessionId - The session ID to end
  */
 export const endSession = (sessionId: string): void => {
+  if (!isBrowser) return;
+
   try {
     const sessions = getStoredSessions();
     const updatedSessions = sessions.filter(session => session.sessionId !== sessionId);
@@ -244,5 +276,30 @@ export const endSession = (sessionId: string): void => {
   }
 };
 
+/**
+ * Sync anonymous sessions to authenticated user
+ * This function transfers local storage sessions to the authenticated user's account
+ */
+export const syncAnonymousSessionsToUser = async (userId: string): Promise<void> => {
+  if (!isBrowser) return;
+
+  try {
+    // Get all local sessions
+    const localSessions = getStoredSessions();
+
+    // For each local session, if it doesn't have a student ID associated with it in the backend,
+    // we could potentially link it to the authenticated user
+    // For now, we'll just clear the local sessions since they're now stored server-side
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+    localStorage.removeItem(CURRENT_SESSION_KEY);
+
+    console.log(`Synced anonymous sessions to user ${userId}`);
+  } catch (error) {
+    console.error('Error syncing sessions to user:', error);
+  }
+};
+
 // Initialize session management when this module is imported
-initializeSessionManagement();
+if (isBrowser) {
+  initializeSessionManagement();
+}

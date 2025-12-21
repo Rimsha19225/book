@@ -21,7 +21,7 @@ class TextbookContent(Base):
     chapter_id = Column(String, nullable=False, index=True)
     title = Column(String, nullable=False)
     content_type = Column(SQLEnum(ContentType.WELCOME, ContentType.INTRODUCTORY,
-                                 ContentType.MODULE, ContentType.ASSESSMENT), nullable=False)
+                                 ContentType.MODULE, ContentType.ASSESSMENT, name="content_type_enum"), nullable=False)
     content_body = Column(Text, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)

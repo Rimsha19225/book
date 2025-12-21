@@ -1,0 +1,37 @@
+/** Test file for the Urdu Translation feature in the Physical AI & Humanoid Robotics Textbook application */
+
+// This test file demonstrates how the Urdu translation feature works
+// The feature has been implemented with the following components:
+
+1. Backend API endpoint at `/api/content/translate` that handles translation requests
+2. Translation service using OpenAI's API to translate content while preserving formatting
+3. Frontend TranslateToUrduButton component that appears at the beginning of each chapter
+4. Caching mechanism to store translations locally and avoid repeated API calls
+5. Authentication check to ensure only logged-in users can access the feature
+6. Toggle functionality to switch between original and translated content
+
+// How to test the feature:
+
+// 1. Ensure the user is logged in (has a valid learning path)
+// 2. Navigate to any chapter in the textbook
+// 3. You should see the "🇵🇰 Translate to Urdu" button at the beginning of the chapter
+// 4. Click the button to translate the content to Urdu
+// 5. The content should be translated while preserving formatting, headings, code blocks, etc.
+// 6. Click the button again to toggle back to the original content
+// 7. If you revisit the same chapter later, the translation should be cached and load quickly
+
+// The implementation handles:
+- Preserving markdown formatting (headings, code blocks, lists, etc.)
+- Keeping technical terms in English with Urdu explanations in brackets
+- Maintaining mathematical expressions in LaTeX format
+- Showing loading states during translation
+- Caching results to prevent re-translation
+- Authentication checks to ensure only logged-in users can translate
+
+// Error handling is included to manage:
+- Network errors during translation API calls
+- Authentication failures
+- Content processing errors
+
+// The feature is fully integrated with the existing Docusaurus-based textbook platform
+// and follows the same design patterns as other components in the application.

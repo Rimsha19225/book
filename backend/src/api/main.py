@@ -1,7 +1,7 @@
 """Main FastAPI application for the Physical AI & Humanoid Robotics Textbook."""
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from . import content_routes, chat_routes
+from . import content_routes, chat_routes, auth_routes
 from ..database.connection import engine, Base
 from ..database.vector_connection import initialize_collection
 import uvicorn
@@ -30,6 +30,7 @@ app.add_middleware(
 # Include API routes
 app.include_router(content_routes.router, prefix="/api/content", tags=["content"])
 app.include_router(chat_routes.router, prefix="/api/chat", tags=["chat"])
+app.include_router(auth_routes.router, prefix="/api/auth", tags=["auth"])
 
 # Health check endpoint
 @app.get("/health")

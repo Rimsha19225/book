@@ -1,13 +1,13 @@
 """Embeddings utility for the Physical AI & Humanoid Robotics Textbook application."""
 from typing import List, Dict, Any
 import numpy as np
-from .openai_client import get_embeddings as openai_get_embeddings
-from .openai_client import get_completion
+from .cohere_client import get_embeddings as cohere_get_embeddings
+from .cohere_client import get_completion
 
 
 def get_text_embedding(text: str) -> List[float]:
     """
-    Get embedding for a single text using OpenAI API.
+    Get embedding for a single text using Cohere API.
 
     Args:
         text: Input text to embed
@@ -15,7 +15,7 @@ def get_text_embedding(text: str) -> List[float]:
     Returns:
         List of floats representing the embedding vector
     """
-    return openai_get_embeddings(text)
+    return cohere_get_embeddings(text)
 
 
 def get_embeddings_batch(texts: List[str]) -> List[List[float]]:
@@ -127,6 +127,59 @@ def chunk_text(text: str, chunk_size: int = 512, overlap: int = 50) -> List[str]
             break
 
     return chunks
+
+
+def chunk_content_for_embeddings(content: str, chunk_size: int = 512, overlap: int = 50) -> List[str]:
+    """
+    Split content into chunks suitable for embedding with proper handling of markdown sections.
+
+    Args:
+        content: Text content to chunk
+        chunk_size: Size of text chunks
+        overlap: Overlap between chunks
+
+    Returns:
+        List of content chunks
+    """
+    # Split content by markdown headers first to preserve context
+    import re
+    header_pattern = r'(^|\n)#{1,6}\s+.*?(?=\n#{1,6}\s+|\n$)'
+
+    # Find header positions
+    header_matches = list(re.finditer(header_pattern, content, re.MULTILINE))
+
+    if not header_matches:
+        # If no headers, use the basic chunking method
+        return chunk_text(content, chunk_size, overlap)
+
+    # Split by headers and then chunk large sections
+    chunks = []
+    start = 0
+
+    for match in header_matches:
+        end = match.start() if match.start() > 0 else 0
+        if end > start:
+            section = content[start:end].strip()
+            if len(section) > chunk_size * 5:  # If section is large, chunk it
+                section_chunks = chunk_text(section, chunk_size, overlap)
+                chunks.extend(section_chunks)
+            else:
+                chunks.append(section)
+
+        header_end = match.end()
+        start = header_end
+
+    # Add the final section
+    if start < len(content):
+        final_section = content[start:].strip()
+        if len(final_section) > chunk_size * 5:
+            final_chunks = chunk_text(final_section, chunk_size, overlap)
+            chunks.extend(final_chunks)
+        else:
+            chunks.append(final_section)
+
+    # Filter out empty chunks
+    return [chunk for chunk in chunks if chunk.strip()]
 
 
 def get_content_embeddings(content: str, chunk_size: int = 512, overlap: int = 50) -> List[Dict[str, Any]]:

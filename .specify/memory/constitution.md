@@ -1,48 +1,48 @@
 <!-- SYNC IMPACT REPORT:
-Version change: N/A (initial creation) → 1.0.0
-Added sections: All principles and sections as specified for Physical AI & Humanoid Robotics textbook
-Removed sections: N/A
+Version change: 1.0.0 → 1.1.0
+Added sections: Updated all principles and sections for Integrated RAG Chatbot Development project
+Removed sections: Physical AI & Humanoid Robotics specific principles
 Templates requiring updates: ⚠ pending (plan-template.md, spec-template.md, tasks-template.md, command files)
 Follow-up TODOs: None
 -->
-# Physical AI & Humanoid Robotics Textbook Constitution
+# Integrated RAG Chatbot Development Constitution
 
 ## Core Principles
 
-### Technical Accuracy and Educational Clarity
-All content must maintain the highest level of technical accuracy for robotics and AI concepts while remaining accessible to beginners. Every explanation must include practical examples and code snippets that are tested and functional. Rationale: Ensures learners gain genuine understanding of complex robotics concepts without confusion.
+### Accurate Retrieval and Generation Based on Book Content
+The chatbot must provide accurate answers based on the full book content or user-selected text segments. The RAG pipeline must achieve at least 90% relevance in retrieved chunks, verified through testing with sample queries. Rationale: Ensures learners receive precise and relevant information from the book content.
 
-### Interactive Learning Experience
-The textbook must provide interactive elements including the integrated RAG chatbot for immediate Q&A support. The UI shall feature a modern blue-themed floating chat assistant positioned at bottom-right for seamless access. Rationale: Enhances learning through immediate feedback and contextual assistance.
+### Modularity and Scalability with Specified Tools
+The system must utilize specified tools for backend (FastAPI), database (Neon Serverless Postgres), vector storage (Qdrant Cloud Free Tier), and AI integration (Cohere API exclusively). The architecture should be modular to allow for easy scaling and maintenance. Rationale: Enables efficient development, testing, and deployment while maintaining flexibility.
 
-### Modular Architecture (NON-NEGOTIABLE)
-The textbook is organized into 4 main modules (ROS 2, Gazebo/Unity, NVIDIA Isaac, VLA) that can be consumed independently while maintaining coherence. Each module follows the same structural patterns and quality standards. Rationale: Enables flexible learning paths and targeted content updates.
+### User-Centric Design for Digital Book Integration
+The chatbot interface must seamlessly embed into digital book formats (interactive web or app interfaces) with intuitive user experience. The UI shall provide clear feedback during query processing and maintain consistent styling with the book's presentation. Rationale: Enhances learning through immediate, contextual assistance without disrupting the reading experience.
 
-### Cross-Technology Integration
-All components must work seamlessly together: Docusaurus frontend, FastAPI backend, Neon Postgres database, and Qdrant vector store. Each technology choice serves a specific purpose in the overall architecture. Rationale: Creates a cohesive learning experience with robust backend support.
+### Privacy and Security in Content Handling
+All book content and user queries must be handled with strict privacy controls and without external data leakage. Environment variables and sensitive configurations must be handled securely with no hardcoded credentials. Rationale: Protects intellectual property and user privacy.
 
-### Responsive Design and Accessibility
-All content and interfaces must be responsive across mobile and desktop devices. Typography uses clean, readable fonts (Inter or similar) with appropriate contrast ratios. Rationale: Ensures accessibility for diverse learners regardless of device or viewing conditions.
+### Efficient Resource Usage with Free Tiers
+The implementation must leverage free tiers and open-source tools where possible to minimize costs while maintaining performance. The system should be designed for optimal resource utilization. Rationale: Makes the solution accessible to a wider audience while maintaining sustainability.
 
-### Security-First Development
-Environment variables and sensitive configurations must be handled securely with no hardcoded credentials. All API endpoints implement proper authentication and authorization where applicable. Rationale: Establishes secure development practices from the foundation.
+### Cohere API Exclusivity (NON-NEGOTIABLE)
+The system must use Cohere API exclusively for embeddings, reranking, and generation; no OpenAI dependencies or other AI service providers are allowed. This ensures consistency and avoids vendor fragmentation. Rationale: Maintains architectural simplicity and predictable performance characteristics.
 
 ## Quality Standards and Technical Requirements
 
-All code snippets must be tested and validated before inclusion. Proper citations must be provided for all technical references and external sources. TypeScript is mandatory for all Docusaurus components with strict typing. The backend follows RESTful API design principles with comprehensive error handling.
+All components must be thoroughly tested with unit tests for each component, integration tests for the full pipeline, and user simulation tests for selected-text queries. The backend follows RESTful API design principles with proper error handling and authentication. Code quality must follow PEP 8 standards with comprehensive documentation.
 
-Color theme specifications: Primary color #2563eb (modern blue), clean white/light gray backgrounds, soft shadows and rounded corners for modern aesthetics.
+The chatbot must accurately answer 95% of test queries based on full book or selected text, validated against ground truth. Zero security vulnerabilities should be detected in code review or scans.
 
 ## Development Workflow and Standards
 
-Development follows Git best practices with descriptive commit messages. TypeScript is used for all Docusaurus components with React best practices. The backend uses FastAPI with Python following RESTful design. Database operations use Neon Serverless Postgres with secure connection handling. Vector storage utilizes Qdrant Cloud with proper indexing strategies.
+Development follows Git best practices with descriptive commit messages. The backend uses FastAPI with Python following RESTful design. Database operations use Neon Serverless Postgres with secure connection handling. Vector storage utilizes Qdrant Cloud with proper indexing strategies. Development tools incorporate Spec-Kit Plus for specification-driven development and Claude Code for agentic coding assistance.
 
-All pull requests require code review with focus on technical accuracy, clarity, and adherence to architectural principles. Automated testing covers both frontend and backend components where applicable.
+All pull requests require code review with focus on technical accuracy, clarity, and adherence to architectural principles. Testing rigor includes unit tests, integration tests, and user simulation tests.
 
 ## Governance
 
-This constitution governs all aspects of the Physical AI & Humanoid Robotics textbook development. All code, content, and architectural decisions must comply with these principles. Amendments require documentation of the change, approval from the core team, and a migration plan if needed. All contributions must reference this constitution during review.
+This constitution governs all aspects of the Integrated RAG Chatbot Development project. All code, content, and architectural decisions must comply with these principles. Amendments require documentation of the change, approval from the core team, and a migration plan if needed. All contributions must reference this constitution during review.
 
-Quality gates include technical accuracy verification, code snippet validation, responsive design testing, and accessibility compliance checks.
+Quality gates include retrieval accuracy verification (90% relevance), response accuracy validation (95% correct answers), security vulnerability scanning, and performance benchmarking.
 
-**Version**: 1.0.0 | **Ratified**: 2025-12-15 | **Last Amended**: 2025-12-15
+**Version**: 1.1.0 | **Ratified**: 2025-12-15 | **Last Amended**: 2025-12-20

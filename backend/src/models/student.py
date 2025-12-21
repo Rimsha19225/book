@@ -1,5 +1,5 @@
 """Student model for the Physical AI & Humanoid Robotics Textbook application."""
-from sqlalchemy import Column, String, DateTime, JSON
+from sqlalchemy import Column, String, DateTime, JSON, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
@@ -13,8 +13,12 @@ class Student(Base):
     student_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = Column(String, unique=True, nullable=False, index=True)
     name = Column(String, nullable=False)
+    password_hash = Column(String, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
     last_accessed = Column(DateTime, default=func.now(), onupdate=func.now())
+    last_login = Column(DateTime)
+    is_active = Column(Boolean, default=True, nullable=False)
+    is_verified = Column(Boolean, default=False, nullable=False)
     preferences = Column(JSON, nullable=True)
 
     # Relationships

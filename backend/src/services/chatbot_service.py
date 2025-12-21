@@ -52,15 +52,21 @@ def send_message_to_chatbot(chat_session_id: str, message: str, context_selectio
         db.add(student_message)
         db.commit()
 
-        # Generate response using AI
-        # For now, using a simple placeholder - in a real implementation,
-        # this would call the RAG service with context from the textbook
-        if context_selection:
-            prompt = f"Based on this context: '{context_selection}', answer this question: {message}"
-        else:
-            prompt = f"Regarding the textbook content, {message}"
+        # Generate response using RAG system
+        from .rag_service import query_content_without_filters
 
-        # This would be replaced with actual AI call in a real implementation
+        # Query the RAG system for relevant textbook content
+        rag_response = query_content_without_filters(message)
+
+        # Create a prompt that includes the RAG context
+        if context_selection:
+            # If there's a specific context selection, prioritize it
+            prompt = f"Based on this selected text: '{context_selection}', and the following textbook content: '{rag_response}', answer this question: {message}"
+        else:
+            # Use the RAG response as context
+            prompt = f"Based on the textbook content: '{rag_response}', answer this question: {message}"
+
+        # Get the AI response using the context-enhanced prompt
         ai_response = get_completion(prompt, session.context_chapter)
 
         # Create a new chat message for the AI response

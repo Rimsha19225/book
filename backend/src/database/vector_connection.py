@@ -35,9 +35,32 @@ def initialize_collection():
         # Create collection if it doesn't exist
         client.create_collection(
             collection_name=COLLECTION_NAME,
-            vectors_config=models.VectorParams(size=1536, distance=models.Distance.COSINE),  # OpenAI embedding size
+            vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),  # Cohere embedding size
         )
         print(f"Created collection '{COLLECTION_NAME}'")
+
+    # Create payload indexes for faster filtering
+    try:
+        # Create index for module_id field
+        client.create_payload_index(
+            collection_name=COLLECTION_NAME,
+            field_name="module_id",
+            field_schema=models.PayloadSchemaType.KEYWORD
+        )
+        print("Created index for module_id")
+    except Exception as e:
+        print(f"Index for module_id may already exist: {e}")
+
+    try:
+        # Create index for chapter_id field
+        client.create_payload_index(
+            collection_name=COLLECTION_NAME,
+            field_name="chapter_id",
+            field_schema=models.PayloadSchemaType.KEYWORD
+        )
+        print("Created index for chapter_id")
+    except Exception as e:
+        print(f"Index for chapter_id may already exist: {e}")
 
 def get_qdrant_client():
     """Get the Qdrant client instance."""
