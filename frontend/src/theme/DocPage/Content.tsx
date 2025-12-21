@@ -4,7 +4,6 @@ import { useLocation } from '@docusaurus/router';
 import OriginalDocContent from '@theme/DocPage/Content';
 import { useSafeLearningPath } from '../../hooks/useSafeLearningPath';
 import TranslateToUrduButton from '../../components/Textbook/TranslateToUrduButton';
-import FloatingChatButton from '../../components/Chatbot/FloatingChatButton';
 import type { Props } from '@theme/DocPage/Content';
 
 // This component wraps the default DocContent to add translation functionality
@@ -91,9 +90,7 @@ const DocContent = (props: Props): JSX.Element => {
   }
 
   // For non-doc pages or when context is not available, return the original content
-  return (
-    <OriginalDocContent {...props} />
-  );
+  return <OriginalDocContent {...props} />;
 };
 
 export default DocContent;
