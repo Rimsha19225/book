@@ -86,3 +86,6 @@ htmlcov/
 ehthumbs.db
 Thumbs.db
 .docusaurus/
+
+nul
+backend/nul
