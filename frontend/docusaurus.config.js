@@ -72,11 +72,14 @@ const config = {
 
   themes: ['@docusaurus/theme-live-codeblock'], // Add any additional themes here
 
-  plugins: [],
+  plugins: [
+    './src/plugins/docusaurus-plugin-inject-env',
+  ],
 
   customFields: {
     // Add custom fields here if needed
   },
+
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */

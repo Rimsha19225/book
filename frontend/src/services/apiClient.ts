@@ -4,14 +4,14 @@ import axios from 'axios';
 // Base API URL - configurable via environment variables or global config
 // For Docusaurus deployment, we check multiple sources for the API URL
 const getApiBaseUrl = () => {
-  // First, try environment variable (for build-time configuration)
-  if (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_BASE_URL) {
-    return process.env.REACT_APP_API_BASE_URL;
-  }
-
-  // Second, try a global variable that can be set in HTML template (for runtime configuration)
+  // First, try a global variable that can be set in HTML template (for runtime configuration)
   if (typeof window !== 'undefined' && (window as any).API_BASE_URL) {
     return (window as any).API_BASE_URL;
+  }
+
+  // Second, try environment variable (for build-time configuration)
+  if (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_BASE_URL) {
+    return process.env.REACT_APP_API_BASE_URL;
   }
 
   // Third, try to determine from the current location for common deployment patterns

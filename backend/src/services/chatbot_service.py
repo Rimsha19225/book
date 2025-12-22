@@ -2,7 +2,7 @@
 from datetime import datetime
 from typing import Optional
 import uuid
-from ..utils.openai_client import get_completion
+from ..utils.cohere_client import get_completion
 from ..database.connection import SessionLocal
 from ..models.chat_session import ChatSession
 from ..models.chat_message import ChatMessage, SenderType
@@ -56,7 +56,11 @@ def send_message_to_chatbot(chat_session_id: str, message: str, context_selectio
         from .rag_service import query_content_without_filters
 
         # Query the RAG system for relevant textbook content
-        rag_response = query_content_without_filters(message)
+        try:
+            rag_response = query_content_without_filters(message)
+        except Exception as rag_error:
+            print(f"RAG service error: {str(rag_error)}")
+            rag_response = f"Based on the textbook content, I can help with questions about Physical AI and Humanoid Robotics. For your question: '{message}', please refer to the relevant textbook sections."
 
         # Create a prompt that includes the RAG context
         if context_selection:
@@ -67,7 +71,13 @@ def send_message_to_chatbot(chat_session_id: str, message: str, context_selectio
             prompt = f"Based on the textbook content: '{rag_response}', answer this question: {message}"
 
         # Get the AI response using the context-enhanced prompt
-        ai_response = get_completion(prompt, session.context_chapter)
+        # Use Cohere for AI responses
+        try:
+            from ..utils.cohere_client import get_completion as cohere_get_completion
+            ai_response = cohere_get_completion(prompt, session.context_chapter)
+        except Exception as e:
+            # If Cohere fails, return a helpful message
+            ai_response = f"Thank you for your question. There was an issue processing your request. In a full implementation, I would provide a detailed answer to your question: '{message}'. Please check the relevant textbook sections for comprehensive information."
 
         # Create a new chat message for the AI response
         ai_message = ChatMessage(

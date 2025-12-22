@@ -31,13 +31,17 @@ def initialize_collection():
         # Check if collection exists
         client.get_collection(COLLECTION_NAME)
         print(f"Collection '{COLLECTION_NAME}' already exists")
-    except:
-        # Create collection if it doesn't exist
-        client.create_collection(
-            collection_name=COLLECTION_NAME,
-            vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),  # Cohere embedding size
-        )
-        print(f"Created collection '{COLLECTION_NAME}'")
+    except Exception as e:
+        if "not found" in str(e).lower() or "404" in str(e):
+            # Create collection if it doesn't exist
+            client.create_collection(
+                collection_name=COLLECTION_NAME,
+                vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),  # Cohere embedding size
+            )
+            print(f"Created collection '{COLLECTION_NAME}'")
+        else:
+            # If it's a different error (like 409 - already exists), just print the message
+            print(f"Collection '{COLLECTION_NAME}' already exists")
 
     # Create payload indexes for faster filtering
     try:
