@@ -58,6 +58,7 @@ def send_message_to_chatbot(chat_session_id: str, message: str, context_selectio
         # Query the RAG system for relevant textbook content
         try:
             rag_response = query_content_without_filters(message)
+            print(f"RAG response: {rag_response[:100]}...")  # Log first 100 chars for debugging
         except Exception as rag_error:
             print(f"RAG service error: {str(rag_error)}")
             rag_response = f"Based on the textbook content, I can help with questions about Physical AI and Humanoid Robotics. For your question: '{message}', please refer to the relevant textbook sections."
@@ -70,12 +71,16 @@ def send_message_to_chatbot(chat_session_id: str, message: str, context_selectio
             # Use the RAG response as context
             prompt = f"Based on the textbook content: '{rag_response}', answer this question: {message}"
 
+        print(f"Final prompt: {prompt[:100]}...")  # Log first 100 chars for debugging
+
         # Get the AI response using the context-enhanced prompt
         # Use Cohere for AI responses
         try:
             from ..utils.cohere_client import get_completion as cohere_get_completion
             ai_response = cohere_get_completion(prompt, session.context_chapter)
+            print(f"Cohere response: {ai_response[:100]}...")  # Log first 100 chars for debugging
         except Exception as e:
+            print(f"Cohere API error: {str(e)}")
             # If Cohere fails, return a helpful message
             ai_response = f"Thank you for your question. There was an issue processing your request. In a full implementation, I would provide a detailed answer to your question: '{message}'. Please check the relevant textbook sections for comprehensive information."
 
@@ -92,6 +97,7 @@ def send_message_to_chatbot(chat_session_id: str, message: str, context_selectio
 
         return ai_response
     except Exception as e:
+        print(f"Error in send_message_to_chatbot: {str(e)}")
         return f"Error processing message: {str(e)}"
     finally:
         db.close()
