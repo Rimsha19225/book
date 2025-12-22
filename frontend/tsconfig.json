@@ -1,0 +1,7 @@
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "./src/types"]
+  }
+}

@@ -40,11 +40,20 @@ def health_check():
 
 # Initialize database on startup
 @app.on_event("startup")
-def on_startup():
-    # Initialize Postgres tables
-    Base.metadata.create_all(bind=engine)
-    # Initialize Qdrant collection
-    initialize_collection()
+async def on_startup():
+    try:
+        # Initialize Postgres tables
+        Base.metadata.create_all(bind=engine)
+        print("Database tables created successfully")
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+        print("Make sure PostgreSQL is running and accessible")
+    try:
+        # Initialize Qdrant collection
+        initialize_collection()
+        print("Qdrant collection initialized successfully")
+    except Exception as e:
+        print(f"Error initializing Qdrant: {e}")
 
 
 if __name__ == "__main__":
