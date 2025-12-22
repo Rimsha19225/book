@@ -1,12 +1,33 @@
 /** API Client Service for the Physical AI & Humanoid Robotics Textbook application */
 import axios from 'axios';
 
-// Base API URL - in production, this would be configured via environment variables
-// Using a default value for development
-// Docusaurus can use global variables or a configuration approach
-const API_BASE_URL = (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_BASE_URL)
-  ? process.env.REACT_APP_API_BASE_URL
-  : 'http://127.0.0.1:8000/api';
+// Base API URL - configurable via environment variables or global config
+// For Docusaurus deployment, we check multiple sources for the API URL
+const getApiBaseUrl = () => {
+  // First, try environment variable (for build-time configuration)
+  if (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_BASE_URL) {
+    return process.env.REACT_APP_API_BASE_URL;
+  }
+
+  // Second, try a global variable that can be set in HTML template (for runtime configuration)
+  if (typeof window !== 'undefined' && (window as any).API_BASE_URL) {
+    return (window as any).API_BASE_URL;
+  }
+
+  // Third, try to determine from the current location for common deployment patterns
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname;
+    // If on GitHub Pages domain, use the Hugging Face backend
+    if (hostname.includes('github.io')) {
+      return 'https://rimsha19225-physicalchatbot.hf.space/api';
+    }
+  }
+
+  // Default fallback for local development
+  return 'http://127.0.0.1:8000/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 // Create an axios instance with default configuration
 const apiClient = axios.create({
