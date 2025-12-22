@@ -61,7 +61,15 @@ def start_chat(student_data: dict, current_user: Optional[Student] = Depends(get
             welcome_message="Hello! I'm your AI-powered textbook assistant. How can I help you with this book?"
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error starting chat session: {str(e)}")
+        print(f"Error in start_chat: {str(e)}")
+        # Return a default response instead of raising an HTTP 500
+        import uuid
+        from datetime import datetime
+        return ChatSessionResponse(
+            chat_session_id=str(uuid.uuid4()),
+            created_at=datetime.now(),
+            welcome_message="Hello! I'm your AI-powered textbook assistant. I'm experiencing technical difficulties but will try to help you with your question."
+        )
 
 
 @router.post("/{chat_session_id}/message", response_model=ChatMessageResponse)
@@ -88,7 +96,14 @@ def send_chat_message(chat_session_id: str, message_data: dict, current_user: Op
         message = message_data.get("message", "")
         context_selection = message_data.get("context_selection", "")
 
+        # Add logging for debugging
+        print(f"Received message: {message[:50]}...")  # Log first 50 chars
+        print(f"Context selection: {context_selection[:50] if context_selection else 'None'}...")
+
         response = send_message_to_chatbot(chat_session_id, message, context_selection)
+
+        # Add logging for debugging
+        print(f"Generated response: {response[:50]}...")  # Log first 50 chars
 
         return ChatMessageResponse(
             message_id=str(uuid.uuid4()),
@@ -99,7 +114,14 @@ def send_chat_message(chat_session_id: str, message_data: dict, current_user: Op
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error sending message: {str(e)}")
+        print(f"General Exception in send_chat_message: {str(e)}")
+        # Return a more helpful error response instead of raising an HTTP 500
+        return ChatMessageResponse(
+            message_id=str(uuid.uuid4()),
+            response="I'm currently experiencing technical difficulties. Please try asking your question again in a moment. For your reference, you asked: '" + message_data.get("message", "Unknown") + "'.",
+            timestamp=datetime.now(),
+            context_used=message_data.get("context_selection", "") if message_data.get("context_selection", "") else None
+        )
 
 
 @router.get("/{chat_session_id}/history", response_model=ChatHistoryResponse)

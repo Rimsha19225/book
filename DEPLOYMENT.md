@@ -121,7 +121,22 @@ Update the `send_message_to_chatbot()` function to include better error handling
 - Add the RAG service error handling around the `query_content_without_filters()` call
 - Add proper exception handling for Cohere API calls
 
-### 4. Environment Variables Required
+### 4. Update the chat_routes.py file
+
+Update the API routes to handle errors gracefully and avoid HTTP 500 responses:
+
+- Update the `/start` endpoint to return a default response instead of raising an HTTP 500 error
+- Update the `/message` endpoint to return a helpful error response instead of raising an HTTP 500 error
+
+### 5. Update the cohere_client.py file
+
+Update the Cohere client to properly handle missing API keys:
+
+- Initialize the client safely when API key is not available
+- Update the `get_completion` function to check for client availability before making API calls
+- Update the `get_embeddings` function to handle missing API keys gracefully
+
+### 6. Environment Variables Required
 
 Ensure the following environment variables are configured in the Hugging Face Space:
 
